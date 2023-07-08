@@ -35,7 +35,10 @@ class EventsRepository
                 $res = $this->db->query($sql, $event->getTitle(), $event->getDescription(), $event->getAirDate(), $event->getPrice(), $event->getId());
             }
         }
-        return $res;
+        if($res !== null) {
+            return true;
+        }
+        return null;
     }
 
     public function getEvents(?int $offset = null, ?int $limit = null): ?\PDOStatement
@@ -52,15 +55,12 @@ class EventsRepository
         } else {
             $res = $this->db->query($sql);
         }
-        if ($res) {
-            return $res;
-        }
-        return null;
+        return $res;
     }
 
-    public function deleteEvent(int $id): ?\PDOStatement
+    public function deleteEvent(int $id): bool
     {
         $sql = "DELETE FROM " . self::$table . " WHERE id = ?";
-        return $this->db->query($sql, $id);
+        return $this->db->query($sql, $id) !== null;
     }
 }

@@ -46,7 +46,7 @@ class DB
         return $this->instance;
     }
 
-    public function query($stmtQuery, ...$args): bool
+    public function query($stmtQuery, ...$args): ?\PDOStatement
     {
         $conn = $this->initialize();
         if ($conn !== null) {
@@ -59,10 +59,12 @@ class DB
                     $stmt->bindParam($key, $value);
                 }
             }
-            return $stmt->execute();
+            if ($stmt->execute()) {
+                return $stmt;
+            }
         }
         $this->logger->error("Query failed", $stmtQuery);
-        return false;
+        return null;
     }
 
     public function getLastInsertId(): ?string

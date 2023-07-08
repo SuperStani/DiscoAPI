@@ -17,18 +17,10 @@
     },
     {
         "id": 3,
-        "title": "Tessst",
+        "title": "tower of god",
         "description": "sfsdfsdf",
         "air_date": "2023-07-08 00:00:00",
         "poster_id": "1688812814.jpg",
-        "price": "1"
-    },
-    {
-        "id": 4,
-        "title": "",
-        "description": "sfsdfsdf",
-        "air_date": "2023-07-08 00:00:00",
-        "poster_id": "1688813087.jpg",
         "price": "1"
     },
     {
@@ -38,13 +30,5 @@
         "air_date": "2023-07-08 00:00:00",
         "poster_id": "1688815225.jpg",
         "price": "1"
-    },
-    {
-        "id": 1,
-        "title": "test",
-        "description": "ttest",
-        "air_date": "2023-06-27 00:00:00",
-        "poster_id": "1687899497.jpg",
-        "price": "23"
     }
 ]
