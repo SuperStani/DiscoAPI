@@ -1,0 +1,50 @@
+[
+    {
+        "id": 2,
+        "title": "test",
+        "description": "SMPP MTN",
+        "air_date": "2023-07-16 00:00:00",
+        "poster_id": "1688812003.jpg",
+        "price": "2"
+    },
+    {
+        "id": 6,
+        "title": "evento",
+        "description": "sasdasdasdasd",
+        "air_date": "2023-07-08 21:41:00",
+        "poster_id": "1688845309.jpg",
+        "price": "4"
+    },
+    {
+        "id": 3,
+        "title": "Tessst",
+        "description": "sfsdfsdf",
+        "air_date": "2023-07-08 00:00:00",
+        "poster_id": "1688812814.jpg",
+        "price": "1"
+    },
+    {
+        "id": 4,
+        "title": "",
+        "description": "sfsdfsdf",
+        "air_date": "2023-07-08 00:00:00",
+        "poster_id": "1688813087.jpg",
+        "price": "1"
+    },
+    {
+        "id": 5,
+        "title": "tessst",
+        "description": "External api for sending sms",
+        "air_date": "2023-07-08 00:00:00",
+        "poster_id": "1688815225.jpg",
+        "price": "1"
+    },
+    {
+        "id": 1,
+        "title": "test",
+        "description": "ttest",
+        "air_date": "2023-06-27 00:00:00",
+        "poster_id": "1687899497.jpg",
+        "price": "23"
+    }
+]
