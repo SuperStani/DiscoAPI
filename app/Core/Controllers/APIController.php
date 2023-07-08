@@ -91,7 +91,7 @@ class APIController
                     "result" => true,
                     "message" => "L'evento è stato eliminato!"
                 ];
-                $this->updateEvents();
+                $this->eventsService->updateEventsFile();
             }
         }
     }
