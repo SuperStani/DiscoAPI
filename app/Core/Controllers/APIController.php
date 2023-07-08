@@ -57,6 +57,7 @@ class APIController
                         "result" => true,
                         "message" => "L'evento è stato salvato con successo!"
                     ];
+                    $this->eventsService->updateEventsFile();
                 }
             } else {
                 $this->response['message'] = "Mancano dei parametri dell'evento, riprova!";
