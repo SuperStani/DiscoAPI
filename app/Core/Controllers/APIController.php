@@ -3,6 +3,7 @@
 
 namespace DiscoAPI\Core\Controllers;
 
+use DiscoAPI\Core\ORM\Entities\Element;
 use DiscoAPI\Core\Services\ElementsService;
 use DiscoAPI\Core\Services\EventsService;
 
@@ -52,6 +53,9 @@ class APIController
                 break;
             case 'updateElementsFile':
                 $this->updateElementsFile();
+                break;
+            case 'getElements':
+                $this->getElements();
                 break;
         }
     }
@@ -118,17 +122,29 @@ class APIController
 
     private function updateElement()
     {
-        if (isset($_POST['name']) && isset($_POST['status'])) {
-            $this->elementsService->updateElement($_POST['name'], $_POST['status']);
-            $this->response = [
-                "result" => true,
-                "message" => "Element has been successfully updated"
-            ];
-            return;
+        if (isset($_POST['element'])) {
+            $data = json_decode($_POST['element'], true);
+            if(!empty($data['name']) && !empty($data['status']))
+            {
+                $this->elementsService->updateElement($data);
+                $this->response = [
+                    "result" => true,
+                    "message" => "Element has been successfully updated"
+                ];
+                return;
+            }
         }
         $this->response = [
             "result" => false,
             "message" => "Missing parameters from the request"
+        ];
+    }
+
+    private function getElements()
+    {
+        $this->response = [
+            "result" => true,
+            "events" => json_decode($this->elementsService->getElementsRaw())
         ];
     }
 

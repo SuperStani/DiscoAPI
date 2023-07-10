@@ -19,7 +19,10 @@ class ElementsService
         $this->elementsRepository = $elementsRepository;
     }
 
-    public function updateElement(Element $element) {
+    public function updateElement(array $data): void
+    {
+        $element = new Element();
+        $element->buildFromArray($data);
         $this->elementsRepository->updateElement($element);
     }
 
@@ -36,5 +39,10 @@ class ElementsService
             $offset += $limit;
         } while ($elements->rowCount() > 0);
         return file_put_contents(self::$elementsRawJsonPath, json_encode($data, JSON_PRETTY_PRINT));
+    }
+
+    public function getElementsRaw()
+    {
+        return file_get_contents(self::$elementsRawJsonPath);
     }
 }
