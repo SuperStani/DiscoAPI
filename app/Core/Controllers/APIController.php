@@ -3,6 +3,8 @@
 
 namespace DiscoAPI\Core\Controllers;
 
+use DiscoAPI\Core\ORM\Entities\Element;
+use DiscoAPI\Core\Services\ElementsService;
 use DiscoAPI\Core\Services\EventsService;
 
 class APIController
@@ -13,13 +15,16 @@ class APIController
 
     private EventsService $eventsService;
 
-    public function __construct(EventsService $eventsService)
+    private ElementsService $elementsService;
+
+    public function __construct(EventsService $eventsService, ElementsService $elementsService)
     {
         $this->response = [
             "result" => false,
             "message" => "Bad request"
         ];
         $this->eventsService = $eventsService;
+        $this->elementsService = $elementsService;
     }
 
     public function init()
@@ -42,6 +47,15 @@ class APIController
                 break;
             case 'deleteEvent':
                 $this->deleteEvent();
+                break;
+            case 'updateElement':
+                $this->updateElement();
+                break;
+            case 'updateElementsFile':
+                $this->updateElementsFile();
+                break;
+            case 'getElements':
+                $this->getElements();
                 break;
         }
     }
@@ -97,11 +111,37 @@ class APIController
         }
     }
 
+    private function updateElementsFile() {
+        if($this->elementsService->updateElementsFile()) {
+            $this->response = [
+                "result" => true,
+                "message" => "Elements file has been successfully updated"
+            ];
+        }
+    }
+
     private function updateElement()
     {
-        $this->response['message'] = "Manca l'id dell'evento!";
-        if (isset($_POST['name']) && isset($_POST['status'])) {
+        $this->response['message'] = "Missing parameters from the request";
+        if (isset($_POST['element'])) {
+            $data = json_decode($_POST['element'], true);
+            if(!empty($data['name']) && !empty($data['status']))
+            {
+                $this->elementsService->updateElement($data);
+                $this->response = [
+                    "result" => true,
+                    "message" => "Element has been successfully updated"
+                ];
+            }
         }
+    }
+
+    private function getElements()
+    {
+        $this->response = [
+            "result" => true,
+            "events" => json_decode($this->elementsService->getElementsRaw())
+        ];
     }
 
 
