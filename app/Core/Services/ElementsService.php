@@ -19,11 +19,11 @@ class ElementsService
         $this->elementsRepository = $elementsRepository;
     }
 
-    public function updateElement(array $data): void
+    public function updateElement(array $data): bool
     {
         $element = new Element();
         $element->buildFromArray($data);
-        $this->elementsRepository->updateElement($element);
+        return $this->elementsRepository->updateElement($element);
     }
 
     public function updateElementsFile(): bool

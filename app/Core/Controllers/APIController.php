@@ -122,6 +122,7 @@ class APIController
 
     private function updateElement()
     {
+        $this->response['message'] = "Missing parameters from the request";
         if (isset($_POST['element'])) {
             $data = json_decode($_POST['element'], true);
             if(!empty($data['name']) && !empty($data['status']))
@@ -131,13 +132,8 @@ class APIController
                     "result" => true,
                     "message" => "Element has been successfully updated"
                 ];
-                return;
             }
         }
-        $this->response = [
-            "result" => false,
-            "message" => "Missing parameters from the request"
-        ];
     }
 
     private function getElements()
