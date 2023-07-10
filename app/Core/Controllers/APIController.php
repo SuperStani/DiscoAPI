@@ -3,9 +3,9 @@
 
 namespace DiscoAPI\Core\Controllers;
 
-use DiscoAPI\Core\ORM\Entities\Element;
 use DiscoAPI\Core\Services\ElementsService;
 use DiscoAPI\Core\Services\EventsService;
+use DiscoAPI\Core\Services\RegistersService;
 
 class APIController
 {
@@ -17,7 +17,9 @@ class APIController
 
     private ElementsService $elementsService;
 
-    public function __construct(EventsService $eventsService, ElementsService $elementsService)
+    private RegistersService $registersService;
+
+    public function __construct(EventsService $eventsService, ElementsService $elementsService, RegistersService $registersService)
     {
         $this->response = [
             "result" => false,
@@ -25,6 +27,7 @@ class APIController
         ];
         $this->eventsService = $eventsService;
         $this->elementsService = $elementsService;
+        $this->registersService = $registersService;
     }
 
     public function init()
@@ -56,6 +59,15 @@ class APIController
                 break;
             case 'getElements':
                 $this->getElements();
+                break;
+            case 'updateRegister':
+                $this->updateRegister();
+                break;
+            case 'updateRegistersFile':
+                $this->updateRegistersFile();
+                break;
+            case 'getRegisters':
+                $this->getRegisters();
                 break;
         }
     }
@@ -144,6 +156,38 @@ class APIController
         ];
     }
 
+    private function updateRegistersFile() {
+        if($this->registersService->updateRegistersFile()) {
+            $this->response = [
+                "result" => true,
+                "message" => "Registers file has been successfully updated"
+            ];
+        }
+    }
+
+    private function updateRegister()
+    {
+        $this->response['message'] = "Missing parameters from the request";
+        if (isset($_POST['register'])) {
+            $data = json_decode($_POST['register'], true);
+            if(!empty($data['id']) && !empty($data['status']))
+            {
+                $this->registersService->updateRegister($data);
+                $this->response = [
+                    "result" => true,
+                    "message" => "Register has been successfully updated"
+                ];
+            }
+        }
+    }
+
+    private function getRegisters()
+    {
+        $this->response = [
+            "result" => true,
+            "events" => json_decode($this->registersService->getRegistersRaw())
+        ];
+    }
 
     public function response(): void
     {
