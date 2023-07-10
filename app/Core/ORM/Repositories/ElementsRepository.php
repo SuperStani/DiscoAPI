@@ -3,6 +3,7 @@
 namespace DiscoAPI\Core\ORM\Repositories;
 
 use DiscoAPI\Core\ORM\DB;
+use DiscoAPI\Core\ORM\Entities\Element;
 
 class ElementsRepository {
 
@@ -15,13 +16,12 @@ class ElementsRepository {
     }
 
     /**
-     * @param string $name
-     * @param int $status
-     * @return null
+     * @param Element $element
+     * @return void
      */
-    public function updateElement(string $name, int $status) {
+    public function updateElement(Element $element) {
         $sql = "UPDATE " . self::$table . " SET status = ? WHERE name = ?";
-        $this->db->query($sql, $status, $name);
+        $this->db->query($sql, $element->getStatus(), $element->getName());
         return;
     }
 

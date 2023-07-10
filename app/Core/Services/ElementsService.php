@@ -3,6 +3,7 @@
 namespace DiscoAPI\Core\Services;
 
 use DiscoAPI\Core\Logger\LoggerInterface;
+use DiscoAPI\Core\ORM\Entities\Element;
 use DiscoAPI\Core\ORM\Repositories\ElementsRepository;
 
 class ElementsService
@@ -18,8 +19,8 @@ class ElementsService
         $this->elementsRepository = $elementsRepository;
     }
 
-    public function updateElement(string $name, int $status) {
-        $this->elementsRepository->updateElement($name, $status);
+    public function updateElement(Element $element) {
+        $this->elementsRepository->updateElement($element);
     }
 
     public function updateElementsFile(): bool
