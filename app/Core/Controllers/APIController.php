@@ -76,9 +76,6 @@ class APIController
             case 'updateSettings':
                 $this->updateSettings();
                 break;
-            case 'clearSettings':
-                $this->clearSettings();
-                break;
         }
     }
 
@@ -216,15 +213,6 @@ class APIController
                  "message" => "Settings has been successfully updated"
               ];
         }
-    }
-
-    private function clearSettings()
-    {
-        $this->generalSettingsService->deleteSettings();
-        $this->response = [
-            "result" => true,
-            "message" => "Settings has been successfully deleted"
-        ];
     }
 
 }
