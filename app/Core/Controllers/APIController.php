@@ -3,7 +3,10 @@
 
 namespace DiscoAPI\Core\Controllers;
 
+use DiscoAPI\Core\Services\ElementsService;
 use DiscoAPI\Core\Services\EventsService;
+use DiscoAPI\Core\Services\NavbarService;
+use DiscoAPI\Core\Services\RegistersService;
 
 class APIController
 {
@@ -13,13 +16,22 @@ class APIController
 
     private EventsService $eventsService;
 
-    public function __construct(EventsService $eventsService)
+    private ElementsService $elementsService;
+
+    private RegistersService $registersService;
+
+    private NavbarService $navbarService;
+
+    public function __construct(EventsService $eventsService, ElementsService $elementsService, RegistersService $registersService, NavbarService $navbarService)
     {
         $this->response = [
             "result" => false,
             "message" => "Bad request"
         ];
         $this->eventsService = $eventsService;
+        $this->elementsService = $elementsService;
+        $this->registersService = $registersService;
+        $this->navbarService = $navbarService;
     }
 
     public function init()
@@ -43,6 +55,30 @@ class APIController
             case 'deleteEvent':
                 $this->deleteEvent();
                 break;
+            case 'updateElement':
+                $this->updateElement();
+                break;
+            case 'updateElementsFile':
+                $this->updateElementsFile();
+                break;
+            case 'getElements':
+                $this->getElements();
+                break;
+            case 'updateRegister':
+                $this->updateRegister();
+                break;
+            case 'updateRegistersFile':
+                $this->updateRegistersFile();
+                break;
+            case 'getRegisters':
+                $this->getRegisters();
+                break;
+            case 'updateNavbarJson':
+                $this->updateNavbarJson();
+                break;
+            case 'getNavbarJson':
+                $this->getNavbarJson();
+                break;
         }
     }
 
@@ -57,6 +93,7 @@ class APIController
                         "result" => true,
                         "message" => "L'evento è stato salvato con successo!"
                     ];
+                    $this->eventsService->updateEventsFile();
                 }
             } else {
                 $this->response['message'] = "Mancano dei parametri dell'evento, riprova!";
@@ -91,18 +128,104 @@ class APIController
                     "result" => true,
                     "message" => "L'evento è stato eliminato!"
                 ];
-                $this->updateEvents();
+                $this->eventsService->updateEventsFile();
             }
+        }
+    }
+
+    private function updateElementsFile() {
+        if($this->elementsService->updateElementsFile()) {
+            $this->response = [
+                "result" => true,
+                "message" => "Elements file has been successfully updated"
+            ];
         }
     }
 
     private function updateElement()
     {
-        $this->response['message'] = "Manca l'id dell'evento!";
-        if (isset($_POST['name']) && isset($_POST['status'])) {
+        $this->response['message'] = "Missing parameters from the request";
+        if (isset($_POST['element'])) {
+            $data = json_decode($_POST['element'], true);
+            if(!empty($data['name']) && !empty($data['status']))
+            {
+                $this->elementsService->updateElement($data);
+                $this->response = [
+                    "result" => true,
+                    "message" => "Element has been successfully updated"
+                ];
+            }
         }
     }
 
+    private function getElements()
+    {
+        $this->response = [
+            "result" => true,
+            "events" => json_decode($this->elementsService->getElementsRaw())
+        ];
+    }
+
+    private function updateRegistersFile() {
+        if($this->registersService->updateRegistersFile()) {
+            $this->response = [
+                "result" => true,
+                "message" => "Registers file has been successfully updated"
+            ];
+        }
+    }
+
+    private function updateRegister()
+    {
+        $this->response['message'] = "Missing parameters from the request";
+        if (isset($_POST['register'])) {
+            $data = json_decode($_POST['register'], true);
+            if(!empty($data['id']) && !empty($data['status']))
+            {
+                $this->registersService->updateRegister($data);
+                $this->response = [
+                    "result" => true,
+                    "message" => "Register has been successfully updated"
+                ];
+            }
+        }
+    }
+
+    private function getRegisters()
+    {
+        $this->response = [
+            "result" => true,
+            "events" => json_decode($this->registersService->getRegistersRaw())
+        ];
+    }
+
+    private function updateNavbarJson()
+    {
+        $this->response['message'] = "Missing parameters from the request";
+        if(isset($_POST['navbar'])) {
+            $data = json_decode($_POST['navbar'], true);
+            # Verifica che il JSON sia valido
+            if($data !== null) {
+                if($this->navbarService->updateNavbarJson($_POST['navbar'])) {
+                    $this->response = [
+                        "result" => true,
+                        "message" => "Navbar successfully updated"
+                    ];
+                } else {
+                    $this->response['message'] = "Couldn't write to file";
+                }
+            }
+        }
+    }
+
+    private function getNavbarJson()
+    {
+        $json = $this->navbarService->getNavbarJson();
+        $this->response = [
+            'result' => true,
+            'navbar' => $json
+        ];
+    }
 
     public function response(): void
     {

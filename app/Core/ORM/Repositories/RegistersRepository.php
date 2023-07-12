@@ -3,25 +3,25 @@
 namespace DiscoAPI\Core\ORM\Repositories;
 
 use DiscoAPI\Core\ORM\DB;
-use DiscoAPI\Core\ORM\Entities\Element;
+use DiscoAPI\Core\ORM\Entities\Register;
 
-class ElementsRepository {
-
+class RegistersRepository
+{
     private DB $db;
-    private static string $table = "elements";
+    private static string $table = "register";
 
     public function __construct(DB $db)
     {
         $this->db = $db;
     }
 
-    public function updateElement(Element $element): bool
+    public function updateRegister(Register $register): bool
     {
-        $sql = "UPDATE " . self::$table . " SET status = ? WHERE name = ?";
-        return $this->db->query($sql, $element->getStatus(), $element->getName()) !== null;
+        $sql = "UPDATE " . self::$table . " SET status = ? WHERE id = ?";
+        return $this->db->query($sql, $register->getStatus(), $register->getId()) !== null;
     }
 
-    public function getElements(?int $offset = null, ?int $limit = null): ?\PDOStatement
+    public function getRegisters(?int $offset = null, ?int $limit = null): ?\PDOStatement
     {
         $sql = "SELECT * FROM " . self::$table;
         if ($limit !== null) {
@@ -40,5 +40,4 @@ class ElementsRepository {
         }
         return null;
     }
-
 }
