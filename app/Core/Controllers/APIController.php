@@ -220,7 +220,7 @@ class APIController
 
     private function clearSettings()
     {
-        $this->generalSettingsService->clearSettings();
+        $this->generalSettingsService->deleteSettings();
         $this->response = [
             "result" => true,
             "message" => "Settings has been successfully deleted"
