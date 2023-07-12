@@ -22,7 +22,7 @@ class GeneralSettingsRepository {
         return $this->db->query($sql, $settings['logo'], $settings['size'], $settings['facebook'], $settings['instagram'], $settings['twitter'], $settings['telegram'], $settings['whatsapp'], $settings['cell'], $settings['email']);
     }
 
-    public function clearSettings(): ?int //Resetta tutte le impostazioni, non so quanto sia utile :/
+    public function clearSettings(): ?\PDOStatement //Resetta tutte le impostazioni, non so quanto sia utile :/
     {
         $sql = 'UPDATE '. self::$table . ' SET logo = ?, size = ?, facebook = ?, instagram = ?, twitter = ?, telegram = ?, whatsapp = ?, cell = ?, email = ?'; //Non so se devo mettere un WHERE qua
         return $this->db->query($sql, null, null, null, null, null, null, null, null, null);
