@@ -14,7 +14,8 @@ class ElementsService
 
     private static string $elementsRawJsonPath = __DIR__ . "/../../assets/common/elements.json";
 
-    public function __construct(LoggerInterface $logger, ElementsRepository $elementsRepository) {
+    public function __construct(LoggerInterface $logger, ElementsRepository $elementsRepository)
+    {
         $this->logger = $logger;
         $this->elementsRepository = $elementsRepository;
     }
@@ -33,7 +34,7 @@ class ElementsService
         $data = [];
         do {
             $elements = $this->elementsRepository->getElements($offset, $limit);
-            while($element = $elements->fetch(\PDO::FETCH_ASSOC)) {
+            foreach($elements as $element) {
                 $data[] = $element;
             }
             $offset += $limit;

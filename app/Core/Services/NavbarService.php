@@ -11,7 +11,8 @@ class NavbarService
 
     private static string $navbarJsonPath = __DIR__ . "/../../assets/common/navbar.json";
 
-    public function __construct(LoggerInterface $logger) {
+    public function __construct(LoggerInterface $logger)
+    {
         $this->logger = $logger;
     }
 
@@ -19,7 +20,7 @@ class NavbarService
     {
         $navbar = new Navbar($json);
         $write = file_put_contents(self::$navbarJsonPath, $navbar->getJson());
-        if($write) {
+        if ($write) {
             return true;
         }
         $this->logger->error('Update navbar failed', $json);

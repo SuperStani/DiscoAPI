@@ -14,7 +14,8 @@ class RegistersService
 
     private static string $registersRawJsonPath = __DIR__ . "/../../assets/common/registers.json";
 
-    public function __construct(LoggerInterface $logger, RegistersRepository $registersRepository) {
+    public function __construct(LoggerInterface $logger, RegistersRepository $registersRepository)
+    {
         $this->logger = $logger;
         $this->registersRepository = $registersRepository;
     }
@@ -33,7 +34,7 @@ class RegistersService
         $data = [];
         do {
             $registers = $this->registersRepository->getRegisters($offset, $limit);
-            while($register = $registers->fetch(\PDO::FETCH_ASSOC)) {
+            foreach ($registers as $register) {
                 $data[] = $register;
             }
             $offset += $limit;
