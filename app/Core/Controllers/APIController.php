@@ -6,6 +6,7 @@ namespace DiscoAPI\Core\Controllers;
 use DiscoAPI\Core\Services\ElementsService;
 use DiscoAPI\Core\Services\EventsService;
 use DiscoAPI\Core\Services\RegistersService;
+use DiscoAPI\Core\Services\GeneralSettingsService;
 
 class APIController
 {
@@ -19,7 +20,9 @@ class APIController
 
     private RegistersService $registersService;
 
-    public function __construct(EventsService $eventsService, ElementsService $elementsService, RegistersService $registersService)
+    private GeneralSettingsService $generalSettingsService;
+
+    public function __construct(EventsService $eventsService, ElementsService $elementsService, RegistersService $registersService, GeneralSettingsService $generalSettingsService)
     {
         $this->response = [
             "result" => false,
@@ -28,6 +31,7 @@ class APIController
         $this->eventsService = $eventsService;
         $this->elementsService = $elementsService;
         $this->registersService = $registersService;
+        $this->generalSettingsService = $generalSettingsService;
     }
 
     public function init()
@@ -68,6 +72,12 @@ class APIController
                 break;
             case 'getRegisters':
                 $this->getRegisters();
+                break;
+            case 'updateSettings':
+                $this->updateSettings();
+                break;
+            case 'clearSettings':
+                $this->clearSettings();
                 break;
         }
     }
@@ -193,4 +203,28 @@ class APIController
     {
         echo json_encode($this->response);
     }
+
+    private function updateSettings()
+    {
+        $this->response['message'] = "Missing parameters from the request";
+        if (isset($_POST['settings'])) {
+            //eviterei di fare un controllo con !empty, tanto non bisogna mai fare INSERT ma UPDATE nella table settings
+            $data = json_decode($_POST['settings'], true);
+             $this->generalSettingsService->updateSettings($data);
+             $this->response = [
+                 "result" => true,
+                 "message" => "Settings has been successfully updated"
+              ];
+        }
+    }
+
+    private function clearSettings()
+    {
+        $this->generalSettingsService->clearSettings();
+        $this->response = [
+            "result" => true,
+            "message" => "Settings has been successfully deleted"
+        ];
+    }
+
 }

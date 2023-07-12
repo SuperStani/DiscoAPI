@@ -16,18 +16,18 @@ class GeneralSettingsRepository {
         $this->db = $db;
     }
 
-    public function saveSettings(Settings $settings): ?int
+    public function updateSettings(Settings $settings): ?int
     {
         //TODO
     }
 
-    public function deleteSettings(Settings $settings): ?int //Resetta tutte le impostazioni, non so quanto sia utile :/
+    public function clearSettings(): ?int //Resetta tutte le impostazioni, non so quanto sia utile :/
     {
         $sql = 'UPDATE '. self::$table . 'SET logo = ?, size = ?, facebook = ?, instagram = ?, twitter = ?, telegram = ?, whatsapp = ?, cell = ?, email = ?'; //Non so se devo mettere un WHERE qua
         return $this->db->query($sql, null, null, null, null, null, null, null, null, null);
     }
 
-    public function getSettings(Settings $settings): ?\PDOStatement
+    public function getSettings(): ?\PDOStatement
     {
         $sql = 'SELECT logo, size, facebook, instagram, twitter, telegram, whatsapp, cell, email FROM ' . self::$table; //Non so se devo mettere un WHERE qua
         return $this->db->query($sql); 
