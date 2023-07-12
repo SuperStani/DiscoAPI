@@ -5,6 +5,7 @@ namespace DiscoAPI\Core\Controllers;
 
 use DiscoAPI\Core\Services\ElementsService;
 use DiscoAPI\Core\Services\EventsService;
+use DiscoAPI\Core\Services\NavbarService;
 use DiscoAPI\Core\Services\RegistersService;
 
 class APIController
@@ -19,7 +20,9 @@ class APIController
 
     private RegistersService $registersService;
 
-    public function __construct(EventsService $eventsService, ElementsService $elementsService, RegistersService $registersService)
+    private NavbarService $navbarService;
+
+    public function __construct(EventsService $eventsService, ElementsService $elementsService, RegistersService $registersService, NavbarService $navbarService)
     {
         $this->response = [
             "result" => false,
@@ -28,6 +31,7 @@ class APIController
         $this->eventsService = $eventsService;
         $this->elementsService = $elementsService;
         $this->registersService = $registersService;
+        $this->navbarService = $navbarService;
     }
 
     public function init()
@@ -68,6 +72,12 @@ class APIController
                 break;
             case 'getRegisters':
                 $this->getRegisters();
+                break;
+            case 'updateNavbarJson':
+                $this->updateNavbarJson();
+                break;
+            case 'getNavbarJson':
+                $this->getNavbarJson();
                 break;
         }
     }
@@ -186,6 +196,34 @@ class APIController
         $this->response = [
             "result" => true,
             "events" => json_decode($this->registersService->getRegistersRaw())
+        ];
+    }
+
+    private function updateNavbarJson()
+    {
+        $this->response['message'] = "Missing parameters from the request";
+        if(isset($_POST['navbar'])) {
+            $data = json_decode($_POST['navbar'], true);
+            # Verifica che il JSON sia valido
+            if($data !== null) {
+                if($this->navbarService->updateNavbarJson($_POST['navbar'])) {
+                    $this->response = [
+                        "result" => true,
+                        "message" => "Navbar successfully updated"
+                    ];
+                } else {
+                    $this->response['message'] = "Couldn't write to file";
+                }
+            }
+        }
+    }
+
+    private function getNavbarJson()
+    {
+        $json = $this->navbarService->getNavbarJson();
+        $this->response = [
+            'result' => true,
+            'navbar' => $json
         ];
     }
 
