@@ -8,7 +8,6 @@ use DiscoAPI\Core\ORM\Entities\GeneralSettings;
 use DiscoAPI\Core\ORM\Repositories\GeneralSettingsRepository;
 
 class GeneralSettingsService {
-    #
 
     private GeneralSettingsRepository $generalSettingsRepository;
 
