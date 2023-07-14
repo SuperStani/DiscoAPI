@@ -83,6 +83,12 @@ class APIController
             case 'getNavbarJson':
                 $this->getNavbarJson();
                 break;
+            case 'updateUserStatus':
+                $this->updateUserStatus();
+                break;
+            case 'getUsers':
+                $this->getUsers();
+                break;
         }
     }
 
@@ -231,14 +237,14 @@ class APIController
         ];
     }
 
-    private function updateUser()
+    private function updateUserStatus()
     {
         $this->response['message'] = "Missing parameters from the request";
         if (isset($_POST['user'])) {
             $data = json_decode($_POST['user'], true);
             if(!empty($data['id']) && !empty($data['status']))
             {
-                $this->usersService->updateUser($data);
+                $this->usersService->updateUserStatus($data);
                 $this->response = [
                     "result" => true,
                     "message" => "User has been successfully updated"

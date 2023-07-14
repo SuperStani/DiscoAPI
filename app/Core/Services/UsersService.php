@@ -18,11 +18,11 @@ class UsersService
         $this->usersRepository = $usersRepository;
     }
 
-    public function updateUser(array $data): bool
+    public function updateUserStatus(array $data): bool
     {
         $user = new User();
         $user->buildFromArray($data);
-        return $this->usersRepository->updateUser($user);
+        return $this->usersRepository->updateUserStatus($user);
     }
 
     /**

@@ -15,7 +15,7 @@ class UsersRepository
         $this->db = $db;
     }
 
-    public function updateUser(User $user): bool
+    public function updateUserStatus(User $user): bool
     {
         $sql = "UPDATE " . self::$table . " SET status = ? WHERE id = ?";
         return $this->db->query($sql, $user->getStatus(), $user->getId()) !== null;
