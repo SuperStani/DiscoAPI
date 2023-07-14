@@ -190,7 +190,7 @@ class APIController
         $this->response['message'] = "Missing parameters from the request";
         if (isset($_POST['register'])) {
             $data = json_decode($_POST['register'], true);
-            if(!empty($data['id']) && !empty($data['status']))
+            if(!empty($data['id']) && isset($data['status']))
             {
                 $this->registersService->updateRegister($data);
                 $this->response = [
@@ -242,7 +242,7 @@ class APIController
         $this->response['message'] = "Missing parameters from the request";
         if (isset($_POST['user'])) {
             $data = json_decode($_POST['user'], true);
-            if(!empty($data['id']) && !empty($data['status']))
+            if(!empty($data['id']) && isset($data['status']))
             {
                 $this->usersService->updateUserStatus($data);
                 $this->response = [
