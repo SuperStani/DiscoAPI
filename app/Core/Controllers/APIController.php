@@ -7,6 +7,7 @@ use DiscoAPI\Core\Services\ElementsService;
 use DiscoAPI\Core\Services\EventsService;
 use DiscoAPI\Core\Services\NavbarService;
 use DiscoAPI\Core\Services\RegistersService;
+use DiscoAPI\Core\Services\UsersService;
 
 class APIController
 {
@@ -22,7 +23,9 @@ class APIController
 
     private NavbarService $navbarService;
 
-    public function __construct(EventsService $eventsService, ElementsService $elementsService, RegistersService $registersService, NavbarService $navbarService)
+    private UsersService $usersService;
+
+    public function __construct(EventsService $eventsService, ElementsService $elementsService, RegistersService $registersService, NavbarService $navbarService, UsersService $usersService)
     {
         $this->response = [
             "result" => false,
@@ -32,6 +35,7 @@ class APIController
         $this->elementsService = $elementsService;
         $this->registersService = $registersService;
         $this->navbarService = $navbarService;
+        $this->usersService = $usersService;
     }
 
     public function init()
@@ -78,6 +82,12 @@ class APIController
                 break;
             case 'getNavbarJson':
                 $this->getNavbarJson();
+                break;
+            case 'updateUserStatus':
+                $this->updateUserStatus();
+                break;
+            case 'getUsers':
+                $this->getUsers();
                 break;
         }
     }
@@ -224,6 +234,31 @@ class APIController
         $this->response = [
             'result' => true,
             'navbar' => $json
+        ];
+    }
+
+    private function updateUserStatus()
+    {
+        $this->response['message'] = "Missing parameters from the request";
+        if (isset($_POST['user'])) {
+            $data = json_decode($_POST['user'], true);
+            if(!empty($data['id']) && !empty($data['status']))
+            {
+                $this->usersService->updateUserStatus($data);
+                $this->response = [
+                    "result" => true,
+                    "message" => "User has been successfully updated"
+                ];
+            }
+        }
+    }
+
+    private function getUsers()
+    {
+        $json = json_encode($this->usersService->getUsers());
+        $this->response = [
+            'result' => true,
+            'users' => $json
         ];
     }
 
