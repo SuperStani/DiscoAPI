@@ -160,6 +160,11 @@ class APIController
             if(!empty($data['name']) && isset($data['status']))
             {
                 $this->elementsService->updateElement($data);
+                $file_update = $this->elementsService->updateElementsFile();
+                if(!$file_update) {
+                    $this->response['message'] = 'Error updating JSON file';
+                    return;
+                }
                 $this->response = [
                     "result" => true,
                     "message" => "Element has been successfully updated"
@@ -193,6 +198,11 @@ class APIController
             if(!empty($data['id']) && isset($data['status']))
             {
                 $this->registersService->updateRegister($data);
+                $file_update = $this->registersService->updateRegistersFile();
+                if(!$file_update) {
+                    $this->response['message'] = 'Error updating JSON file';
+                    return;
+                }
                 $this->response = [
                     "result" => true,
                     "message" => "Register has been successfully updated"
