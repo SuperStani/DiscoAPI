@@ -34,8 +34,16 @@ class RegistersService
         $data = [];
         do {
             $registers = $this->registersRepository->getRegisters($offset, $limit);
-            while($register = $registers->fetch(\PDO::FETCH_ASSOC)) {
-                $data[] = $register;
+            foreach($registers as $rawRegister) {
+                $register = new Register($rawRegister['id'], $rawRegister['name'], $rawRegister['type'], $rawRegister['status'], $rawRegister['label'], $rawRegister['ranking']);
+                $data[] = [
+                    'id' => $register->getId(),
+                    'name' => $register->getName(),
+                    'type' => $register->getType(),
+                    'status' => $register->getStatus(),
+                    'label' => $register->getLabel(),
+                    'ranking' => $register->getRanking()
+                ];
             }
             $offset += $limit;
         } while ($registers->rowCount() > 0);
