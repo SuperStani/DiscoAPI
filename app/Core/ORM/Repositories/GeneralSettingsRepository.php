@@ -1,9 +1,9 @@
 <?php
 
-namespace DiscoApi\Core\ORM\Repositories;
+namespace DiscoAPI\Core\ORM\Repositories;
 
 use DiscoAPI\Core\ORM\DB;
-use DiscoAPI\Core\ORM\Entities\GeneralSettings\Settings;
+use DiscoAPI\Core\ORM\Entities\GeneralSettings;
 
 class GeneralSettingsRepository {
 
@@ -16,10 +16,10 @@ class GeneralSettingsRepository {
         $this->db = $db;
     }
 
-    public function updateSettings(Settings $settings): ?int
+    public function updateSettings(GeneralSettings $settings): \PDOStatement
     {
         $sql = 'UPDATE '. self::$table . ' SET logo = ?, size = ?, facebook = ?, instagram = ?, twitter = ?, telegram = ?, whatsapp = ?, cell = ?, email = ?, address = ?, pec = ?'; //Non so se devo mettere un WHERE qua
-        return $this->db->query($sql, $settings['logo'], $settings['size'], $settings['facebook'], $settings['instagram'], $settings['twitter'], $settings['telegram'], $settings['whatsapp'], $settings['cell'], $settings['email'], $settings['address'], $settings['pec']);
+        return $this->db->query($sql, $settings->getLogo(), $settings->getSize(), $settings->getFacebook(), $settings->getInstagram(), $settings->getTwitter(), $settings->getTelegram(), $settings->getWhatsapp(), $settings->getCell(), $settings->getEmail(), $settings->getAddress(), $settings->getPec());
     }
 
     public function getSettings(): ?\PDOStatement

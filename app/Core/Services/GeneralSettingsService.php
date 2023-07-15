@@ -2,7 +2,6 @@
 
 namespace DiscoAPI\Core\Services;
 
-use DiscoAPI\Configs\GeneralConfigurations;
 use DiscoAPI\Core\Logger\LoggerInterface;
 use DiscoAPI\Core\ORM\Entities\GeneralSettings;
 use DiscoAPI\Core\ORM\Repositories\GeneralSettingsRepository;
@@ -21,9 +20,9 @@ class GeneralSettingsService {
         $this->generalSettingsRepository = $generalSettingsRepository;
     }
 
-    public function saveSettings(array $data): ?int
+    public function updateSettings(array $data): \PDOStatement
     {
-        $settings = new Settings();
+        $settings = new GeneralSettings();
         $settings->setLogo($data['logo']);
         $settings->setSize($data['size']);
         $settings->setFacebook($data['facebook']);

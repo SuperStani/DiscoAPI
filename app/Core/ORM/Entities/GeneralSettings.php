@@ -2,7 +2,7 @@
 
 namespace DiscoAPI\Core\ORM\Entities;
 
-class Settings {
+class GeneralSettings {
     
     private ?string $logo;
     private ?string $size;
@@ -102,57 +102,57 @@ class Settings {
 
     //SET
 
-    public function setLogo(): void
+    public function setLogo(?string $logo): void
     {
         $this->logo = $logo;
     }
 
-    public function setSize(): void
+    public function setSize(?string $size): void
     {
         $this->size = $size;
     }
 
-    public function setFacebook(): void
+    public function setFacebook(?string $facebook): void
     {
         $this->facebook = $facebook;
     }
 
-    public function setInstagram(): void
+    public function setInstagram(?string $instagram): void
     {
         $this->instagram = $instagram;
     }
 
-    public function setTwitter(): void
+    public function setTwitter(?string $twitter): void
     {
         $this->twitter = $twitter;
     }
 
-    public function setTelegram(): void
+    public function setTelegram(?string $telegram): void
     {
         $this->telegram = $telegram;
     }
 
-    public function setWhatsapp(): void
+    public function setWhatsapp(?string $whatsapp): void
     {
         $this->whatsapp = $whatsapp;
     }
 
-    public function setCell(): void
+    public function setCell(?string $cell): void
     {
         $this->cell = $cell;
     }
 
-    public function setEmail(): void
+    public function setEmail(?string $email): void
     {
         $this->email = $email;
     }
 
-    public function setAddress(): void
+    public function setAddress(?string $address): void
     {
         $this->address = $address;
     }
 
-    public function setPec(): void
+    public function setPec(?string $pec): void
     {
         $this->pec = $pec;
     }
