@@ -34,7 +34,7 @@ class RegistersService
         $data = [];
         do {
             $registers = $this->registersRepository->getRegisters($offset, $limit);
-            foreach ($registers as $register) {
+            while($register = $registers->fetch(\PDO::FETCH_ASSOC)) {
                 $data[] = $register;
             }
             $offset += $limit;
