@@ -265,10 +265,9 @@ class APIController
 
     private function getUsers()
     {
-        $json = json_encode($this->usersService->getUsers());
         $this->response = [
             'result' => true,
-            'users' => $json
+            'users' => $this->usersService->getUsers()
         ];
     }
 
