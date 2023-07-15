@@ -49,6 +49,9 @@ class EventsService
 
     public function getEventsRaw()
     {
+        if(!file_exists(self::$eventsRawJsonPath)) {
+            $this->updateEventsFile();
+        }
         return file_get_contents(self::$eventsRawJsonPath);
     }
 

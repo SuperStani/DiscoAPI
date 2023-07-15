@@ -44,6 +44,9 @@ class RegistersService
 
     public function getRegistersRaw()
     {
+        if(!file_exists(self::$registersRawJsonPath)) {
+            $this->updateRegistersFile();
+        }
         return file_get_contents(self::$registersRawJsonPath);
     }
 }

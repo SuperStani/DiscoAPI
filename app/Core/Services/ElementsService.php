@@ -44,6 +44,9 @@ class ElementsService
 
     public function getElementsRaw()
     {
+        if(!file_exists(self::$elementsRawJsonPath)) {
+            $this->updateElementsFile();
+        }
         return file_get_contents(self::$elementsRawJsonPath);
     }
 }
