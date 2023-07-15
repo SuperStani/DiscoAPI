@@ -33,6 +33,8 @@ class GeneralSettingsService {
         $settings->setWhatsapp($data['whatsapp']);
         $settings->setCell($data['cell']);
         $settings->setEmail($data['email']);
+        $settings->setAddress($data['address']);
+        $settings->setPec($data['pec']);
         return $this->generalSettingsRepository->updateSettings($settings);
     }
 

@@ -18,8 +18,8 @@ class GeneralSettingsRepository {
 
     public function updateSettings(Settings $settings): ?int
     {
-        $sql = 'UPDATE '. self::$table . ' SET logo = ?, size = ?, facebook = ?, instagram = ?, twitter = ?, telegram = ?, whatsapp = ?, cell = ?, email = ?'; //Non so se devo mettere un WHERE qua
-        return $this->db->query($sql, $settings['logo'], $settings['size'], $settings['facebook'], $settings['instagram'], $settings['twitter'], $settings['telegram'], $settings['whatsapp'], $settings['cell'], $settings['email']);
+        $sql = 'UPDATE '. self::$table . ' SET logo = ?, size = ?, facebook = ?, instagram = ?, twitter = ?, telegram = ?, whatsapp = ?, cell = ?, email = ?, address = ?, pec = ?'; //Non so se devo mettere un WHERE qua
+        return $this->db->query($sql, $settings['logo'], $settings['size'], $settings['facebook'], $settings['instagram'], $settings['twitter'], $settings['telegram'], $settings['whatsapp'], $settings['cell'], $settings['email'], $settings['address'], $settings['pec']);
     }
 
     public function getSettings(): ?\PDOStatement
