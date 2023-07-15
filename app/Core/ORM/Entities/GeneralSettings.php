@@ -13,6 +13,8 @@ class Settings {
     private ?string $whatsapp;
     private ?string $cell;
     private ?string $email;
+    private ?string $address;
+    private ?string $pec;
 
     public function __construct(
         ?string $logo = null,
@@ -23,7 +25,9 @@ class Settings {
         ?string $telegram = null,
         ?string $whatsapp = null,
         ?string $cell = null,
-        ?string $email = null
+        ?string $email = null,
+        ?string $address = null,
+        ?string $pec = null
     )
     {
         $this->logo = $logo;
@@ -35,6 +39,8 @@ class Settings {
         $this->whatsapp = $whatsapp;
         $this->cell = $cell;
         $this->email = $email;
+        $this->address = $address;
+        $this->pec = $pec;
     }
 
     //GET
@@ -84,6 +90,16 @@ class Settings {
         return $this->email;
     }
 
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function getPec(): ?string
+    {
+        return $this->pec;
+    }
+
     //SET
 
     public function setLogo(): void
@@ -93,42 +109,52 @@ class Settings {
 
     public function setSize(): void
     {
-        $this->logo = $size;
+        $this->size = $size;
     }
 
     public function setFacebook(): void
     {
-        $this->logo = $facebook;
+        $this->facebook = $facebook;
     }
 
     public function setInstagram(): void
     {
-        $this->logo = $instagram;
+        $this->instagram = $instagram;
     }
 
     public function setTwitter(): void
     {
-        $this->logo = $twitter;
+        $this->twitter = $twitter;
     }
 
     public function setTelegram(): void
     {
-        $this->logo = $telegram;
+        $this->telegram = $telegram;
     }
 
     public function setWhatsapp(): void
     {
-        $this->logo = $whatsapp;
+        $this->whatsapp = $whatsapp;
     }
 
     public function setCell(): void
     {
-        $this->logo = $cell;
+        $this->cell = $cell;
     }
 
     public function setEmail(): void
     {
-        $this->logo = $email;
+        $this->email = $email;
+    }
+
+    public function setAddress(): void
+    {
+        $this->address = $address;
+    }
+
+    public function setPec(): void
+    {
+        $this->pec = $pec;
     }
 
 }
