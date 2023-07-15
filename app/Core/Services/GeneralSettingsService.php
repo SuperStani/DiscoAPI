@@ -13,6 +13,8 @@ class GeneralSettingsService {
 
     private LoggerInterface $logger;
 
+    private static string $settingsRawJsonPath = __DIR__ . "/../../assets/common/settings.json";
+
     public function __construct(LoggerInterface $logger, GeneralSettingsRepository $generalSettingsRepository)
     {
         $this->logger = $logger;
@@ -32,6 +34,11 @@ class GeneralSettingsService {
         $settings->setCell($data['cell']);
         $settings->setEmail($data['email']);
         return $this->generalSettingsRepository->updateSettings($settings);
+    }
+
+    public function getSettingsRaw()
+    {
+        return file_get_contents(self::$settingsRawJsonPath);
     }
 
 }
