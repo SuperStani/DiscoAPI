@@ -25,12 +25,20 @@ class UsersService
         return $this->usersRepository->updateUserStatus($user);
     }
 
-    /**
-     * @return array|false
-     */
-    public function getUsers()
+    public function getUsers(): array
     {
+        $data = [];
         $q = $this->usersRepository->getUsers();
-        return $q->fetchAll(\PDO::FETCH_ASSOC);
+        foreach ($q as $row) {
+            $data[] = [
+                "id" => $row["id"],
+                "name" => $row['name'],
+                "surname" => $row['surname'],
+                "phone" => $row['phone'],
+                "status" => $row['status'],
+                "avatar" => $row['avatar']
+            ];
+        }
+        return $data;
     }
 }
