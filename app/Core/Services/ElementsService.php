@@ -34,8 +34,13 @@ class ElementsService
         $data = [];
         do {
             $elements = $this->elementsRepository->getElements($offset, $limit);
-            foreach($elements as $element) {
-                $data[] = $element;
+            foreach($elements as $rawElement) {
+                $element = new Element($rawElement['id'], $rawElement['name'], $rawElement['status']);
+                $data[] = [
+                    'id' => $element->getId(),
+                    'name' => $element->getName(),
+                    'status' => $element->getStatus()
+                ];
             }
             $offset += $limit;
         } while ($elements->rowCount() > 0);
