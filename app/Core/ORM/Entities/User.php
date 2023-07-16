@@ -73,7 +73,7 @@ class User
         return $this->avatar;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): ?int
     {
         return $this->status;
     }
