@@ -21,6 +21,12 @@ class UsersRepository
         return $this->db->query($sql, $user->getStatus(), $user->getId()) !== null;
     }
 
+    public function updateUserInfo(User $user): bool
+    {
+        $sql = "UPDATE " . self::$table . " SET name = ?, surname = ?, phone = ?, avatar = ?, status = ? WHERE id = ?";
+        return $this->db->query($sql, $user->getName(), $user->getSurname(), $user->getPhone(), $user->getAvatar(), $user->getStatus(), $user->getId()) !== null;
+    }
+
     public function getUsers(?int $offset = null, ?int $limit = null): ?\PDOStatement
     {
         $sql = "SELECT * FROM " . self::$table;

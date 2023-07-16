@@ -86,6 +86,9 @@ class APIController
             case 'updateUserStatus':
                 $this->updateUserStatus();
                 break;
+            case 'updateUserInfo':
+                $this->updateUserInfo();
+                break;
             case 'getUsers':
                 $this->getUsers();
                 break;
@@ -252,9 +255,25 @@ class APIController
         $this->response['message'] = "Missing parameters from the request";
         if (isset($_POST['user'])) {
             $data = json_decode($_POST['user'], true);
-            if(!empty($data['id']) && isset($data['status']))
+            if(isset($data['id']) && isset($data['status']))
             {
                 $this->usersService->updateUserStatus($data);
+                $this->response = [
+                    "result" => true,
+                    "message" => "User has been successfully updated"
+                ];
+            }
+        }
+    }
+
+    private function updateUserInfo()
+    {
+        $this->response['message'] = "Missing parameters from the request";
+        if (isset($_POST['user'])) {
+            $data = json_decode($_POST['user'], true);
+            if(isset($data['id']))
+            {
+                $this->usersService->updateUserInfo($data);
                 $this->response = [
                     "result" => true,
                     "message" => "User has been successfully updated"

@@ -25,6 +25,13 @@ class UsersService
         return $this->usersRepository->updateUserStatus($user);
     }
 
+    public function updateUserInfo(array $data): bool
+    {
+        $user = new User();
+        $user->buildFromArray($data);
+        return $this->usersRepository->updateUserInfo($user);
+    }
+
     public function getUsers(): array
     {
         $data = [];

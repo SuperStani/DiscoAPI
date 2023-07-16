@@ -78,7 +78,7 @@ class User
         return $this->status;
     }
 
-    public function setId(?id $id): void
+    public function setId(?int $id): void
     {
         $this->id = $id;
     }
