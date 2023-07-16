@@ -29,6 +29,18 @@ class UsersService
     {
         $user = new User();
         $user->buildFromArray($data);
+
+        if ($user->getStatus() === 1) {
+            if (
+                $user->getName() === null or
+                $user->getSurname() === null or
+                $user->getPhone() === null or
+                $user->getAvatar() === null
+            ) {
+                return false;
+            }
+        }
+
         return $this->usersRepository->updateUserInfo($user);
     }
 

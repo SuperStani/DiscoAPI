@@ -273,11 +273,12 @@ class APIController
             $data = json_decode($_POST['user'], true);
             if(isset($data['id']))
             {
-                $this->usersService->updateUserInfo($data);
-                $this->response = [
-                    "result" => true,
-                    "message" => "User has been successfully updated"
-                ];
+                if($this->usersService->updateUserInfo($data)) {
+                    $this->response = [
+                        "result" => true,
+                        "message" => "User has been successfully updated"
+                    ];
+                }
             }
         }
     }
