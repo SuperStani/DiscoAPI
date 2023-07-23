@@ -29,7 +29,11 @@ class UsersRepository
 
     public function getUsers(?int $offset = null, ?int $limit = null): ?\PDOStatement
     {
-        $sql = "SELECT * FROM " . self::$table;
+        $sql1 = "SELECT REPLACE(GROUP_CONCAT(COLUMN_NAME), 'password,', '') 
+FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '".self::$table."' 
+AND TABLE_SCHEMA = 'nightclub' ";
+        $res1 = $this->db->query($sql1);
+        $sql = "SELECT ".$res1->fetchColumn()." FROM " . self::$table;
         if ($limit !== null) {
             if ($offset !== null) {
                 $sql .= " LIMIT ?, ?";
