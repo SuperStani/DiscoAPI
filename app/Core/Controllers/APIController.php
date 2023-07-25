@@ -3,6 +3,7 @@
 
 namespace DiscoAPI\Core\Controllers;
 
+use DiscoAPI\Core\Services\CocktailsService;
 use DiscoAPI\Core\Services\ElementsService;
 use DiscoAPI\Core\Services\EventsService;
 use DiscoAPI\Core\Services\NavbarService;
@@ -25,7 +26,9 @@ class APIController
 
     private UsersService $usersService;
 
-    public function __construct(EventsService $eventsService, ElementsService $elementsService, RegistersService $registersService, NavbarService $navbarService, UsersService $usersService)
+    private CocktailsService $cocktailsService;
+
+    public function __construct(EventsService $eventsService, ElementsService $elementsService, RegistersService $registersService, NavbarService $navbarService, UsersService $usersService, CocktailsService $cocktailsService)
     {
         $this->response = [
             "result" => false,
@@ -36,6 +39,7 @@ class APIController
         $this->registersService = $registersService;
         $this->navbarService = $navbarService;
         $this->usersService = $usersService;
+        $this->cocktailsService = $cocktailsService;
     }
 
     public function init()
@@ -92,6 +96,18 @@ class APIController
             case 'getUsers':
                 $this->getUsers();
                 break;
+            case 'saveCocktail':
+                $this->saveCocktail();
+                break;
+            case 'getCocktails':
+                $this->getCocktails();
+                break;
+            case 'updateCocktails':
+                $this->updateCocktails();
+                break;
+            case 'deleteCocktail':
+                $this->deleteCocktail();
+                break;
         }
     }
 
@@ -142,6 +158,57 @@ class APIController
                     "message" => "L'evento è stato eliminato!"
                 ];
                 $this->eventsService->updateEventsFile();
+            }
+        }
+    }
+
+    public function saveCocktail()
+    {
+        $this->response['message'] = "Il cocktail non è stato salvato, riprova!";
+        if (isset($_POST['cocktail'])) {
+            $data = json_decode($_POST['cocktail'], true);
+            if (!empty($data['name']) && !empty($data['price']) && !empty($data['quantita']) && !empty($data['sconto']) && !empty($data['vendite']) && !empty($data['descrizione'])) {
+                if ($this->cocktailsService->saveCocktail($data)) {
+                    $this->response = [
+                        "result" => true,
+                        "message" => "Il cocktail è stato salvato con successo!"
+                    ];
+                    $this->cocktailsService->updateCocktailsFile();
+                }
+            } else {
+                $this->response['message'] = "Mancano dei parametri del cocktail, riprova!";
+            }
+
+        }
+    }
+
+    public function getCocktails()
+    {
+        $this->response = [
+            "result" => true,
+            "cocktails" => json_decode($this->cocktailsService->getCocktailsRaw())
+        ];
+    }
+
+    public function updateCocktails()
+    {
+        if ($this->cocktailsService->updateCocktailsFile()) {
+            $this->response = [
+                "result" => true,
+                "message" => "Cocktails has been successfully updated"
+            ];
+        }
+    }
+
+    public function deleteCocktail()
+    {
+        if (isset($_GET['id'])) {
+            if ($this->cocktailsService->deleteCocktail($_GET['id'])) {
+                $this->response = [
+                    "result" => true,
+                    "message" => "Il cocktail è stato eliminato!"
+                ];
+                $this->cocktailsService->updateCocktailsFile();
             }
         }
     }
