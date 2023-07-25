@@ -11,5 +11,6 @@ interface GeneralConfigurations
     public const LOGGER_PATH = __DIR__ . "/../Log/";
 
     public const POSTER_PATH = __DIR__ . "/../../../assets/images/posters/";
-    const IMG_PATH = __DIR__ . "/../../../assets/images/cocktails/";
+
+    public const IMG_PATH = __DIR__ . "/../../../assets/images/cocktails/";
 }
