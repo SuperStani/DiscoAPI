@@ -86,6 +86,9 @@ class APIController
             case 'updateUserStatus':
                 $this->updateUserStatus();
                 break;
+            case 'updateUserAvatar':
+                $this->updateUserAvatar();
+                break;
             case 'updateUserInfo':
                 $this->updateUserInfo();
                 break;
@@ -262,6 +265,23 @@ class APIController
                     "result" => true,
                     "message" => "User has been successfully updated"
                 ];
+            }
+        }
+    }
+
+    private function updateUserAvatar()
+    {
+        $this->response['message'] = "Missing parameters from the request";
+        if (isset($_POST['user'])) {
+            $data = json_decode($_POST['user'], true);
+            if(isset($data['id']) && isset($data['avatar']))
+            {
+                if($this->usersService->updateUserAvatar($data)) {
+                    $this->response = [
+                        "result" => true,
+                        "message" => "User has been successfully updated"
+                    ];
+                }
             }
         }
     }
