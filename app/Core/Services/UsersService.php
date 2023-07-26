@@ -48,15 +48,8 @@ class UsersService
     {
         $data = [];
         $q = $this->usersRepository->getUsers();
-        foreach ($q as $row) {
-            $data[] = [
-                "id" => $row["id"],
-                "name" => $row['name'],
-                "surname" => $row['surname'],
-                "phone" => $row['phone'],
-                "status" => $row['status'],
-                "avatar" => $row['avatar']
-            ];
+        while($user = $q->fetch(\PDO::FETCH_ASSOC)) {
+            $data[] = $user;
         }
         return $data;
     }
